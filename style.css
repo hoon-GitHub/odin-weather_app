@@ -42,8 +42,47 @@ body {
   color: var(--blue-gray);
 }
 
+#cityInfo {
+  margin-bottom: 30px;
+  text-align: right;
+  color: var(--dark-gray);
+}
+
+#cityInfo h2 {
+  margin-bottom: 10px;
+  border-bottom: 2px solid var(--dark-gray);
+  color: var(--blue-gray)
+}
+
+#nav label {
+  margin-right: 3px;
+  font-weight: bold;
+}
+
+#searchInput {
+  padding: 5px 10px;
+  border: 2px solid var(--content-bg);
+  border-radius: 15px;
+  text-align: right;
+  font-family: "Nunito", sans-serif;
+  font-weight: bold;
+}
+
+#searchButton {
+  margin-top: 5px;
+  margin-right: 3px;
+  padding: 5px 20px;
+  border: none;
+  border-radius: 15px;
+  background-color: var(--content-bg);
+}
+
+#searchButton:hover {
+  filter: brightness(110%);
+}
+
 /* content side on the right */
-#content {
+#weather {
   width: 100%;
   background-color: var(--content-bg);
   display: flex;
@@ -52,6 +91,31 @@ body {
   justify-content: center;
   padding: 20px;
   color: var(--dark-gray)
+}
+
+#content {
+  height: 70%;
+  width: 70%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  gap: 10px;
+  align-items: center;
+  justify-content: left;
+}
+
+#content div {
+  height: 90%;
+  padding: 5px;
+  border-left: 5px double var(--blue-gray);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+#current {
+  grid-row: span 3;
 }
 
 

@@ -1,4 +1,7 @@
 const city = "atlanta"; // default city
+const searchInput = document.getElementById('searchInput');
+const searchButton = document.getElementById('searchButton');
+const cityInfo = document.getElementById('cityInfo');
 
 async function getWeather (city) {
 
@@ -43,8 +46,10 @@ function processData (weatherData) {
       'condition' : weatherData.current.condition.text,
       'temp' : weatherData.current.temp_f,
       'feelslike' : weatherData.current.feelslike_f,
+      'humidity' : weatherData.current.humidity,
       'wind_dir' : weatherData.current.wind_dir,
-      'wind' : weatherData.current.wind_mph
+      'wind' : weatherData.current.wind_mph,
+      'uv' : weatherData.current.uv
     },
     'today' : {
       'condition' : weatherData.forecast.forecastday[0].day.condition.text,
@@ -79,16 +84,29 @@ function processData (weatherData) {
 // render data onto webpage - currently console-logging only
 function renderWeather (data) {
 
-  const location = data.location;
   const current = data.current;
   const day0 = data.today;
   const day1 = data.tomorrow;
   const day2 = data.dayAfter;
-  console.log(location);
-  console.log(current);
-  console.log(day0);
-  console.log(day1);
-  console.log(day2);
+
+  const locName = document.createElement('h2');
+  locName.textContent = `weather for: ${data.location.name}`;
+  cityInfo.appendChild(locName);
+  const locRegion = document.createElement('h4');
+  locRegion.textContent = data.location.region;
+  cityInfo.appendChild(locRegion);
+  const locCountry = document.createElement('h4');
+  locCountry.textContent = data.location.country;
+  cityInfo.appendChild(locCountry);
+  const locTime = document.createElement('h6');
+  locTime.textContent = data.location.localtime;
+  cityInfo.appendChild(locTime);
+
+  // console.log(location);
+  // console.log(current);
+  // console.log(day0);
+  // console.log(day1);
+  // console.log(day2);
 
 }
 
