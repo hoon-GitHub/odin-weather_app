@@ -118,6 +118,19 @@ body {
   grid-row: span 3;
 }
 
+#today,
+#tomorrow,
+#dayAfter {
+  font-size: 80%;
+}
+
+#current h3 {
+  margin-bottom: 10px;
+}
+
+#content h4 {
+  margin-top: 10px;
+}
 
 /* sticky footer */
 footer {

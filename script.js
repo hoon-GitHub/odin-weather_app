@@ -2,14 +2,15 @@ const city = "atlanta"; // default city
 const searchInput = document.getElementById('searchInput');
 const searchButton = document.getElementById('searchButton');
 const cityInfo = document.getElementById('cityInfo');
+const current = document.getElementById('current');
 
 async function getWeather (city) {
 
   let weatherData;
   try {
-
     // fetch weather data
-    const response = await fetch('http://api.weatherapi.com/v1/forecast.json?key=4f55b38b0164467096213919241705&q=' + city + '&days=3&aqi=no&alerts=no', {mode: 'cors'});
+    const response = await fetch('http://api.weatherapi.com/v1/forecast.json?key=4f55b38b0164467096213919241705&q='
+      + city + '&days=3&aqi=no&alerts=no', {mode: 'cors'});
     weatherData = await response.json();
 
     // console-log all data fetched
@@ -19,12 +20,11 @@ async function getWeather (city) {
     // console.log(weatherData.forecast.forecastday[0]);
     // console.log(weatherData.forecast.forecastday[1]);
     // console.log(weatherData.forecast.forecastday[2]);
-
   } catch (error) {
     console.warn("ERROR: ", error);
   }
 
-  // process data to only get what we need
+  // process data to get only what we need
   const data = processData(weatherData);
   
   // render the above processed data to the webpage - frontend portion
@@ -32,7 +32,7 @@ async function getWeather (city) {
 
 }
 
-// only grab data that we need
+// filter out unnecessary data
 function processData (weatherData) {
 
     const data = {
@@ -52,6 +52,7 @@ function processData (weatherData) {
       'uv' : weatherData.current.uv
     },
     'today' : {
+      'date' : weatherData.forecast.forecastday[0].date,
       'condition' : weatherData.forecast.forecastday[0].day.condition.text,
       'low' : weatherData.forecast.forecastday[0].day.mintemp_f,
       'high' : weatherData.forecast.forecastday[0].day.maxtemp_f,
@@ -60,6 +61,7 @@ function processData (weatherData) {
       'uv' : weatherData.forecast.forecastday[0].day.uv
     },
     'tomorrow' : {
+      'date' : weatherData.forecast.forecastday[1].date,
       'condition' : weatherData.forecast.forecastday[1].day.condition.text,
       'low' : weatherData.forecast.forecastday[1].day.mintemp_f,
       'high' : weatherData.forecast.forecastday[1].day.maxtemp_f,
@@ -68,6 +70,7 @@ function processData (weatherData) {
       'uv' : weatherData.forecast.forecastday[1].day.uv
     },
     'dayAfter' : {
+      'date' : weatherData.forecast.forecastday[2].date,
       'condition' : weatherData.forecast.forecastday[2].day.condition.text,
       'low' : weatherData.forecast.forecastday[2].day.mintemp_f,
       'high' : weatherData.forecast.forecastday[2].day.maxtemp_f,
@@ -84,11 +87,6 @@ function processData (weatherData) {
 // render data onto webpage - currently console-logging only
 function renderWeather (data) {
 
-  const current = data.current;
-  const day0 = data.today;
-  const day1 = data.tomorrow;
-  const day2 = data.dayAfter;
-
   const locName = document.createElement('h2');
   locName.textContent = `weather for: ${data.location.name}`;
   cityInfo.appendChild(locName);
@@ -102,12 +100,57 @@ function renderWeather (data) {
   locTime.textContent = data.location.localtime;
   cityInfo.appendChild(locTime);
 
-  // console.log(location);
-  // console.log(current);
-  // console.log(day0);
-  // console.log(day1);
-  // console.log(day2);
+  const currCondition = document.createElement('h2');
+  currCondition.textContent = data.current.condition;
+  current.appendChild(currCondition);
+  const currTemp = document.createElement('h5');
+  currTemp.textContent = `Temperature: ${data.current.temp} F`;
+  current.appendChild(currTemp);
+  const currFeelsLike = document.createElement('h5');
+  currFeelsLike.textContent = `Feels like: ${data.current.feelslike} F`;
+  current.appendChild(currFeelsLike);
+  const currHumidity = document.createElement('h5');
+  currHumidity.textContent = `Humidity: ${data.current.humidity} %`;
+  current.appendChild(currHumidity);
+  const currWind = document.createElement('h5');
+  currWind.textContent = `Wind: ${data.current.wind} mph, ${data.current.wind_dir}`;
+  current.appendChild(currWind);
+  const currUv = document.createElement('h5');
+  currUv.textContent = `UV Index: ${data.current.uv}`;
+  current.appendChild(currUv);
 
+  // populate the 3-day forecase sections
+  renderForecastDay('today', data);
+  renderForecastDay('tomorrow', data);
+  renderForecastDay('dayAfter', data);
+
+}
+
+// function for populating forecast divs
+function renderForecastDay(day, data) {
+  const dayDiv = document.getElementById(day);
+
+  const dayDate = document.createElement('h6');
+  dayDate.textContent = `(${data[day].date})`;
+  dayDiv.appendChild(dayDate);
+  const dayCondition = document.createElement('h4');
+  dayCondition.textContent = data[day].condition;
+  dayDiv.appendChild(dayCondition);
+  const dayHigh = document.createElement('h6');
+  dayHigh.textContent = `High: ${data[day].high} F`;
+  dayDiv.appendChild(dayHigh);
+  const dayLow = document.createElement('h6');
+  dayLow.textContent = `Low: ${data[day].low} F`;
+  dayDiv.appendChild(dayLow);
+  const dayRain = document.createElement('h6');
+  dayRain.textContent = `Chance of Rain: ${data[day].chanceRain} %`;
+  dayDiv.appendChild(dayRain);
+  const dayHumidity = document.createElement('h6');
+  dayHumidity.textContent = `Humidity: ${data[day].humidity} %`;
+  dayDiv.appendChild(dayHumidity);
+  const dayUv = document.createElement('h6');
+  dayUv.textContent = `UV Index: ${data[day].uv}`;
+  dayDiv.appendChild(dayUv);
 }
 
 getWeather(city);
