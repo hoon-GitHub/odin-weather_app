@@ -23,6 +23,11 @@ searchButton.addEventListener('click', (e) => {
 
 async function getWeather (city) {
 
+  if (city === "") {
+    console.log("ERROR: City name is empty.");
+    city = "atlanta";
+  }
+
   let weatherData;
   try {
     // fetch weather data

@@ -9,8 +9,8 @@ Project finished on: **5/19/2024**
 
 ### Mid-Project Thoughts/Progress
 - `async` function returns a Promise object containing data within it - is there a way to directly access the data from the returned Promise object, without using another `async` function with `await` call, or `.then()`?
-- User input error handling?
 
 ### Post-Project Remarks
 - Learned how to add a 'loading' component while the API fetch call is running (within an `async` function, for the `await` call).
 - Also learned how to create a spinner and attach to the button. An object with only the top portion of the rounded border showing, and then make it to spin!
+- User input validation may need more work. Currently it only checks if the search string is empty (reset city to Atlanta).
