@@ -1,8 +1,25 @@
-const city = "atlanta"; // default city
-const searchInput = document.getElementById('searchInput');
-const searchButton = document.getElementById('searchButton');
+let city = "atlanta"; // default city
+
 const cityInfo = document.getElementById('cityInfo');
 const current = document.getElementById('current');
+const today = document.getElementById('today');
+const tomorrow = document.getElementById('tomorrow');
+const dayAfter = document.getElementById('dayAfter');
+
+const searchInput = document.getElementById('searchInput');
+const searchButton = document.getElementById('searchButton');
+
+searchButton.addEventListener('click', (e) => {
+  e.preventDefault();
+  city = searchInput.value;
+  while (cityInfo.firstChild) cityInfo.firstChild.remove();
+  while (current.firstChild) current.firstChild.remove();
+  while (today.firstChild) today.firstChild.remove();
+  while (tomorrow.firstChild) tomorrow.firstChild.remove();
+  while (dayAfter.firstChild) dayAfter.firstChild.remove();
+  searchInput.value = "";
+  getWeather(city);
+})
 
 async function getWeather (city) {
 
@@ -27,7 +44,7 @@ async function getWeather (city) {
   // process data to get only what we need
   const data = processData(weatherData);
   
-  // render the above processed data to the webpage - frontend portion
+  // render the above processed data to the webpage
   renderWeather(data);
 
 }
@@ -88,7 +105,7 @@ function processData (weatherData) {
 
 }
 
-// render data onto webpage - currently console-logging only
+// render data onto webpage
 function renderWeather (data) {
 
   const locName = document.createElement('h2');
@@ -104,6 +121,9 @@ function renderWeather (data) {
   locTime.textContent = data.location.localtime;
   cityInfo.appendChild(locTime);
 
+  const currTitle = document.createElement('h3');
+  currTitle.textContent = "Right now:";
+  current.appendChild(currTitle);
   const currIcon = document.createElement('img');
   currIcon.src = "https:" + data.current.icon;
   current.appendChild(currIcon);
@@ -126,16 +146,22 @@ function renderWeather (data) {
   currUv.textContent = `UV Index: ${data.current.uv}`;
   current.appendChild(currUv);
 
-  // populate the 3-day forecase sections
+  // and populate the 3-day forecast sections
   renderForecastDay('today', data);
   renderForecastDay('tomorrow', data);
   renderForecastDay('dayAfter', data);
 
 }
 
-// function for populating forecast divs
+// function for populating 3-day forecast divs
 function renderForecastDay(day, data) {
   const dayDiv = document.getElementById(day);
+
+  const dayTitle = document.createElement('h5');
+  if (day === 'today') dayTitle.textContent = "Today:";
+  else if (day === 'tomorrow') dayTitle.textContent = "Tomorrow:";
+  else if (day === 'dayAfter') dayTitle.textContent = "The Day After:";
+  dayDiv.appendChild(dayTitle);
 
   const dayDate = document.createElement('h6');
   dayDate.textContent = `(${data[day].date})`;

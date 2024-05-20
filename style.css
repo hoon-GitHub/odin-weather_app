@@ -59,6 +59,13 @@ body {
   font-weight: bold;
 }
 
+#nav form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+}
+
 #searchInput {
   padding: 5px 10px;
   border: 2px solid var(--content-bg);
@@ -106,7 +113,7 @@ body {
 
 #content div {
   height: 90%;
-  padding: 5px;
+  padding: 10px;
   border-left: 5px double var(--blue-gray);
   display: flex;
   flex-direction: column;
@@ -114,8 +121,9 @@ body {
   justify-content: center;
 }
 
-#current {
+div#current {
   grid-row: span 3;
+  height: 70%;
 }
 
 #current h3 {
@@ -132,6 +140,7 @@ body {
   font-size: 80%;
 }
 
+/* forecast weather icons */
 #today img,
 #tomorrow img,
 #dayAfter img {
