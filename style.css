@@ -75,13 +75,54 @@ body {
   font-weight: bold;
 }
 
-#searchButton {
+.searchButton {
+  position: relative; /* to position spinner within the button */
   margin-top: 5px;
   margin-right: 3px;
   padding: 5px 20px;
   border: none;
   border-radius: 15px;
   background-color: var(--content-bg);
+  cursor: pointer;
+}
+
+/* creates a spinner */
+.buttonLoading::after {
+  content: "";
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  top: 0; /* center the object */
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  border: 3px solid transparent; /* a transparent bordered object */
+  border-top-color: var(--dark-gray); /* but the top part has color */
+  border-radius: 50%; /* and make the border round */
+  animation: button-loading-spinner 1s ease infinite;
+}
+
+/* make it spin */
+@keyframes button-loading-spinner {
+  from {
+    transform: rotate(0turn);
+  }
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+/* smooth transition for showing/hiding text */
+.buttonText {
+  color: var(--dark-gray);
+  transition: all 0.2s;
+}
+
+/* hide the text while loading */
+.buttonLoading .buttonText {
+  visibility: hidden;
+  opacity: 0;
 }
 
 #searchButton:hover {

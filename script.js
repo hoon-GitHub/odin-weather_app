@@ -7,7 +7,7 @@ const tomorrow = document.getElementById('tomorrow');
 const dayAfter = document.getElementById('dayAfter');
 
 const searchInput = document.getElementById('searchInput');
-const searchButton = document.getElementById('searchButton');
+const searchButton = document.querySelector('.searchButton');
 
 searchButton.addEventListener('click', (e) => {
   e.preventDefault();
@@ -26,8 +26,10 @@ async function getWeather (city) {
   let weatherData;
   try {
     // fetch weather data
+    searchButton.classList.add('buttonLoading');
     const response = await fetch('http://api.weatherapi.com/v1/forecast.json?key=4f55b38b0164467096213919241705&q='
       + city + '&days=3&aqi=no&alerts=no', {mode: 'cors'});
+    searchButton.classList.remove('buttonLoading');
     weatherData = await response.json();
 
     // console-log all data fetched
