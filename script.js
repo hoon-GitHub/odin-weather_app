@@ -44,6 +44,7 @@ function processData (weatherData) {
     },
     'current' : {
       'condition' : weatherData.current.condition.text,
+      'icon' : weatherData.current.condition.icon,
       'temp' : weatherData.current.temp_f,
       'feelslike' : weatherData.current.feelslike_f,
       'humidity' : weatherData.current.humidity,
@@ -53,6 +54,7 @@ function processData (weatherData) {
     },
     'today' : {
       'date' : weatherData.forecast.forecastday[0].date,
+      'icon' : weatherData.forecast.forecastday[0].day.condition.icon,
       'condition' : weatherData.forecast.forecastday[0].day.condition.text,
       'low' : weatherData.forecast.forecastday[0].day.mintemp_f,
       'high' : weatherData.forecast.forecastday[0].day.maxtemp_f,
@@ -62,6 +64,7 @@ function processData (weatherData) {
     },
     'tomorrow' : {
       'date' : weatherData.forecast.forecastday[1].date,
+      'icon' : weatherData.forecast.forecastday[1].day.condition.icon,
       'condition' : weatherData.forecast.forecastday[1].day.condition.text,
       'low' : weatherData.forecast.forecastday[1].day.mintemp_f,
       'high' : weatherData.forecast.forecastday[1].day.maxtemp_f,
@@ -71,6 +74,7 @@ function processData (weatherData) {
     },
     'dayAfter' : {
       'date' : weatherData.forecast.forecastday[2].date,
+      'icon' : weatherData.forecast.forecastday[2].day.condition.icon,
       'condition' : weatherData.forecast.forecastday[2].day.condition.text,
       'low' : weatherData.forecast.forecastday[2].day.mintemp_f,
       'high' : weatherData.forecast.forecastday[2].day.maxtemp_f,
@@ -100,6 +104,9 @@ function renderWeather (data) {
   locTime.textContent = data.location.localtime;
   cityInfo.appendChild(locTime);
 
+  const currIcon = document.createElement('img');
+  currIcon.src = "https:" + data.current.icon;
+  current.appendChild(currIcon);
   const currCondition = document.createElement('h2');
   currCondition.textContent = data.current.condition;
   current.appendChild(currCondition);
@@ -133,6 +140,9 @@ function renderForecastDay(day, data) {
   const dayDate = document.createElement('h6');
   dayDate.textContent = `(${data[day].date})`;
   dayDiv.appendChild(dayDate);
+  const dayIcon = document.createElement('img');
+  dayIcon.src = "https:" + data[day].icon;
+  dayDiv.appendChild(dayIcon);
   const dayCondition = document.createElement('h4');
   dayCondition.textContent = data[day].condition;
   dayDiv.appendChild(dayCondition);
